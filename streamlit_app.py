@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 shadow_opacity = 0  # Nível de opacidade da sombra (0 a 1, onde 1 é totalmente opaco)
 colors_progress = ['#ff9999', '#66b3ff']  # Cores para o gráfico de progresso
 colors_access = ['#99ff99', '#ffcc99']   # Cores para o gráfico de acesso
+legend_fontsize = 6
 
 # Carregar os dados do arquivo CSV
 file_path = './database.csv'
@@ -54,7 +55,7 @@ if not course_data.empty:
     st.write(f"Estudantes com 0% de progresso: {zero_progress_count}")
     
     # Gráfico de Pizza 3D: Estudantes com 0% de progresso
-    fig1, ax1 = plt.subplots(figsize=(5, 3))  # Define a largura (5) e a altura (3) da figura
+    fig1, ax1 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (3) da figura
     labels = ['0% de Progresso', 'Outros']
     sizes = [zero_progress_count, total_students - zero_progress_count]
     explode = (0.1, 0)  # "Explodir" a fatia de 0% de progresso
@@ -66,14 +67,14 @@ if not course_data.empty:
     ax1.axis('equal')  # Garantir que o gráfico é um círculo
     
     # Adicionar a legenda
-    ax1.legend(wedges, labels, title="Progresso", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+    ax1.legend(wedges, labels, title="Progresso", loc="lower right", bbox_to_anchor=(1, 0, 0.5, 1), fontsize=legend_fontsize)
 
     st.pyplot(fig1)
     
     st.write(f"Estudantes que nunca acessaram a disciplina: {never_accessed_count}")
     
     # Gráfico de Pizza 3D: Estudantes que nunca acessaram a disciplina
-    fig2, ax2 = plt.subplots(figsize=(5, 3))  # Define a largura (5) e a altura (3) da figura
+    fig2, ax2 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (3) da figura
     labels = ['Nunca Acessaram', 'Já Acessaram']
     sizes = [never_accessed_count, total_students - never_accessed_count]
     wedges, texts, autotexts = ax2.pie(
@@ -84,7 +85,7 @@ if not course_data.empty:
     ax2.axis('equal')  # Garantir que o gráfico é um círculo
     
     # Adicionar a legenda
-    ax2.legend(wedges, labels, title="Acesso", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+    ax2.legend(wedges, labels, title="Acesso", loc="lower right", bbox_to_anchor=(1, 0, 0.5, 1), fontsize=legend_fontsize)
 
     st.pyplot(fig2)
     
