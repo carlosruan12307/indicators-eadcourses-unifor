@@ -3,13 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Configurações globais de estilo para matplotlib
-plt.rcParams['figure.facecolor'] = '#0E1117'  # Fundo da figura
-plt.rcParams['axes.facecolor'] = '#0E1117'    # Fundo dos eixos
-plt.rcParams['savefig.facecolor'] = '#0E1117' # Fundo ao salvar figuras
-plt.rcParams['text.color'] = 'white'
-plt.rcParams['axes.labelcolor'] = 'white'
-plt.rcParams['xtick.color'] = 'white'
-plt.rcParams['ytick.color'] = 'white'
+plt.rcParams['figure.facecolor'] = 'white'  # Fundo da figura
+plt.rcParams['axes.facecolor'] = 'white'    # Fundo dos eixos
+plt.rcParams['savefig.facecolor'] = 'white' # Fundo ao salvar figuras
+plt.rcParams['text.color'] = '#0E1117'
+plt.rcParams['axes.labelcolor'] = '#0E1117'
+plt.rcParams['xtick.color'] = '#0E1117'
+plt.rcParams['ytick.color'] = '#0E1117'
 
 # Carregar os dados do arquivo CSV
 file_path = './database.csv'
@@ -54,9 +54,8 @@ if not course_data.empty:
     st.subheader(f'Disciplina: {selected_course}')
     st.write(f"Quantidade total de estudantes: {total_students}")
     st.write(f"Média do progresso: {progress_mean:.2f}%")
+
     st.write(f"Quantidade de estudantes com 0% de progresso: {zero_progress_count}")
-    st.write(f"Quantidade de estudantes que nunca acessaram a disciplina: {never_accessed_count}")
-    
     # Gráfico de Pizza 3D: Estudantes com 0% de progresso
     fig1, ax1 = plt.subplots()
     labels = ['0% de Progresso', 'Outros']
@@ -64,9 +63,9 @@ if not course_data.empty:
     explode = (0.1, 0)  # "Explodir" a fatia de 0% de progresso
     ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, explode=explode, shadow=True)
     ax1.axis('equal')  # Garantir que o gráfico é um círculo
-    st.subheader("Distribuição de Estudantes com 0% de Progresso:")
     st.pyplot(fig1)
     
+    st.write(f"Quantidade de estudantes que nunca acessaram a disciplina: {never_accessed_count}")
     # Gráfico de Pizza 3D: Estudantes que nunca acessaram a disciplina
     fig2, ax2 = plt.subplots()
     labels = ['Nunca Acessaram', 'Já Acessaram']
@@ -74,7 +73,7 @@ if not course_data.empty:
     explode = (0.1, 0)  # "Explodir" a fatia de nunca acessaram
     ax2.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, explode=explode, shadow=True)
     ax2.axis('equal')  # Garantir que o gráfico é um círculo
-    st.subheader("Distribuição de Estudantes que Nunca Acessaram a Disciplina:")
+
     st.pyplot(fig2)
     
     # Gráfico dos últimos acessos
