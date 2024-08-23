@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 shadow_opacity = 0  # Nível de opacidade da sombra (0 a 1, onde 1 é totalmente opaco)
 colors_progress = ['#ff9999', '#66b3ff']  # Cores para o gráfico de progresso
 colors_access = ['#99ff99', '#ffcc99']   # Cores para o gráfico de acesso
-legend_fontsize = 6
+legend_fontsize = 8
 
 # Carregar os dados do arquivo CSV
 file_path = './database.csv'
@@ -61,7 +61,7 @@ if not course_data.empty:
     explode = (0.1, 0)  # "Explodir" a fatia de 0% de progresso
     wedges, texts, autotexts = ax1.pie(
         sizes, autopct='%1.1f%%', startangle=90, explode=explode, 
-        colors=colors_progress, textprops={'fontsize': 6},
+        colors=colors_progress, textprops={'fontsize': 8},
         wedgeprops=dict(linewidth=1)
     )
     ax1.axis('equal')  # Garantir que o gráfico é um círculo
@@ -79,7 +79,7 @@ if not course_data.empty:
     sizes = [never_accessed_count, total_students - never_accessed_count]
     wedges, texts, autotexts = ax2.pie(
         sizes, autopct='%1.1f%%', startangle=90, explode=explode, 
-        colors=colors_access, textprops={'fontsize': 6},
+        colors=colors_access, textprops={'fontsize': 8},
         wedgeprops=dict(linewidth=1)
     )
     ax2.axis('equal')  # Garantir que o gráfico é um círculo
