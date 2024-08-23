@@ -9,7 +9,7 @@ colors_access = ['#99ff99', '#ffcc99']   # Cores para o gráfico de acesso
 legend_fontsize = 8
 
 # Carregar os dados do arquivo CSV
-file_path = './database.csv'
+file_path = './database23ago2024.csv'
 data = pd.read_csv(file_path)
 
 # Filtrar apenas as disciplinas do Trimestre T1 e usuários com papel "Estudante"
