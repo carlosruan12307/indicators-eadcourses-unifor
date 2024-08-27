@@ -9,8 +9,8 @@ colors_access = ['#99ff99', '#ffcc99']   # Cores para o gráfico de acesso
 legend_fontsize = 8
 
 # Carregar os dados do arquivo CSV
-file_path = './database23ago2024.csv'
-data = pd.read_csv(file_path)
+cursos = './cursosEaD/database23ago2024.csv'
+data = pd.read_csv(cursos)
 
 # Filtrar apenas as disciplinas do Trimestre T1 e usuários com papel "Estudante"
 students_data = data[(data['Trimestre'] == 'T1') & (data['Papel'] == 'Estudante')]
@@ -55,7 +55,7 @@ if not course_data.empty:
     st.write(f"Estudantes com 0% de progresso: {zero_progress_count}")
     
     # Gráfico de Pizza 3D: Estudantes com 0% de progresso
-    fig1, ax1 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (3) da figura
+    fig1, ax1 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (4) da figura
     labels = ['0% de Progresso', 'Outros']
     sizes = [zero_progress_count, total_students - zero_progress_count]
     explode = (0.1, 0)  # "Explodir" a fatia de 0% de progresso
@@ -74,7 +74,7 @@ if not course_data.empty:
     st.write(f"Estudantes que nunca acessaram a disciplina: {never_accessed_count}")
     
     # Gráfico de Pizza 3D: Estudantes que nunca acessaram a disciplina
-    fig2, ax2 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (3) da figura
+    fig2, ax2 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (4) da figura
     labels = ['Nunca Acessaram', 'Já Acessaram']
     sizes = [never_accessed_count, total_students - never_accessed_count]
     wedges, texts, autotexts = ax2.pie(
