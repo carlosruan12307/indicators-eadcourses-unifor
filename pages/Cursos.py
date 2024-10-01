@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+st.sidebar.image("./icons/logoEAD.png", width=150)
+
 # Definir as cores e sombra como variáveis
 shadow_opacity = 0  # Nível de opacidade da sombra (0 a 1, onde 1 é totalmente opaco)
 colors_progress = ['#ff9999', '#66b3ff']  # Cores para o gráfico de progresso
@@ -34,10 +36,7 @@ def generate_metrics(course_data):
     zero_progress_count = course_data[course_data['Progresso do estudante'] == 0].shape[0]
     
     # Contar usuários que nunca acessaram a disciplina (valores NaN ou "Nunca")
-    never_accessed_count = course_data[
-        course_data['Último acesso a disciplina'].isna() | 
-        (course_data['Último acesso a disciplina'] == "Nunca")
-    ].shape[0]
+    never_accessed_count = course_data[course_data['Último acesso a disciplina'].isna() | (course_data['Último acesso a disciplina'] == "Nunca")].shape[0]
     
     last_access_count = course_data['Último acesso a disciplina'].value_counts()
     
@@ -47,13 +46,38 @@ def generate_metrics(course_data):
 if not course_data.empty:
     total_students, progress_mean, zero_progress_count, never_accessed_count, last_access_count = generate_metrics(course_data)
     
-    # Exibir as informações
-    st.subheader(f'Disciplina: {selected_course}')
-    st.write(f"Total de estudantes: {total_students}")
-    st.write(f"Média do progresso: {progress_mean:.2f}%")
+    # Exibir as informações estilizadas usando HTML e CSS
+    st.markdown(f"""
+        <style>
+            .metric-box {{
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, {shadow_opacity});
+                background-color: #f9f9f9;
+            }}
+            .metric-box h2 {{
+                margin: 0;
+                font-size: 20px;
+                color: #333;
+            }}
+            .metric-box p {{
+                margin: 0;
+                font-size: 16px;
+                color: #555;
+            }}
+        </style>
+        
+        <div class="metric-box">
+            <h2>Disciplina: {selected_course}</h2>
+            <p>Total de estudantes: {total_students}</p>
+            <p>Média do progresso: {progress_mean:.2f}%</p>
+            <p>Estudantes com 0% de progresso: {zero_progress_count}</p>
+            <p>Estudantes que nunca acessaram: {never_accessed_count}</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-    st.write(f"Estudantes com 0% de progresso: {zero_progress_count}")
-    
     # Gráfico de Pizza 3D: Estudantes com 0% de progresso
     fig1, ax1 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (4) da figura
     labels = ['0% de Progresso', 'Outros']
@@ -71,8 +95,6 @@ if not course_data.empty:
 
     st.pyplot(fig1)
     
-    st.write(f"Estudantes que nunca acessaram a disciplina: {never_accessed_count}")
-    
     # Gráfico de Pizza 3D: Estudantes que nunca acessaram a disciplina
     fig2, ax2 = plt.subplots(figsize=(5, 4))  # Define a largura (5) e a altura (4) da figura
     labels = ['Nunca Acessaram', 'Já Acessaram']
@@ -88,9 +110,5 @@ if not course_data.empty:
     ax2.legend(wedges, labels, title="Acesso", loc="lower right", bbox_to_anchor=(1, 0, 0.5, 1), fontsize=legend_fontsize)
 
     st.pyplot(fig2)
-    
-    # Gráfico dos últimos acessos
-    # st.write("Últimos acessos por dia:")
-    # st.bar_chart(last_access_count)
 else:
     st.write("Nenhuma informação disponível para a disciplina selecionada.")
