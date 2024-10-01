@@ -44,7 +44,6 @@ if date_filter_option != "Escolha o período":
     if generate_report:
         # Filtrar os dados com base na seleção do usuário
         if date_filter_option == "Data específica":
-            # Filtrar os dados apenas para a data selecionada
             filtered_data = data[data['Data'] == pd.to_datetime(selected_date)]
         elif date_filter_option == "Última semana":
             one_week_ago = datetime.today() - timedelta(weeks=1)
@@ -88,7 +87,7 @@ if date_filter_option != "Escolha o período":
         students_only_discipline = set(students_accessing_discipline).difference(students_accessing_pages)
 
         # Exibir os resultados da análise de estudantes únicos
-        st.subheader("Análise")
+        st.subheader("Análise quantitativa, qualitativa e temporal")
         st.write(f"**Total de estudantes que acessaram a disciplina (Secretaria Virtual EaD):** {len(students_accessing_discipline)}")
         st.write(f"**Total de estudantes que acessaram a disciplina e também acessaram as páginas:** {len(students_discipline_and_pages)}")
         st.write(f"**Total de estudantes que acessaram apenas a disciplina sem entrar nas páginas:** {len(students_only_discipline)}")
@@ -108,6 +107,40 @@ if date_filter_option != "Escolha o período":
         ax.axis('equal')  # Equaliza o gráfico de pizza
 
         # Exibir o gráfico de pizza no Streamlit
+        st.pyplot(fig)
+
+        # Gráfico de linha para análise temporal dos acessos
+        # st.subheader("Análise Temporal dos Acessos")
+
+        # Agrupar os acessos por data
+        accesses_by_date = filtered_data.groupby(filtered_data['Data'].dt.date).size()
+
+        # Certifique-se de que o índice está como datetime
+        accesses_by_date.index = pd.to_datetime(accesses_by_date.index)
+
+        # Criar o gráfico de linha
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(accesses_by_date.index, accesses_by_date.values, marker='o', linestyle='-', color='b', label="Acessos")
+
+        ax.set_xlabel('Data')
+        ax.set_ylabel('Número de Acessos')
+        ax.set_title('Evolução dos Acessos ao Longo do Tempo')
+
+        # Adicionar linhas pontilhadas verticais para cada ponto de data no eixo x
+        for date in accesses_by_date.index:
+            ax.axvline(x=date, color='gray', linestyle='--', linewidth=0.5)
+
+        # Ajustar os rótulos das datas para maior legibilidade
+        ax.set_xticks(accesses_by_date.index)
+        ax.set_xticklabels(accesses_by_date.index.strftime('%d/%m/%Y'), rotation=45, ha="right")
+
+        # Ajustar o espaçamento para que os rótulos não se sobreponham
+        plt.tight_layout()
+
+        # Adicionar legenda
+        ax.legend()
+
+        # Exibir o gráfico de linha no Streamlit
         st.pyplot(fig)
 else:
     st.info("Por favor, selecione um período para gerar o relatório.")
