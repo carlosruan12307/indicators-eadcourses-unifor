@@ -32,5 +32,5 @@ st.set_page_config(page_title="Dashboard de Indicadores de Aprendizagem")
 
 st.sidebar.image("./icons/logoEAD.png", width=150)
 
-st.title("Receba as boas-vindas da equipe lalaa")
+st.title("Receba as boas-vindas ao Dashboard de Indicadores de Apredizagem")
 st.write("Use o menu lateral para navegar entre as disciplinas da Graduação EaD, Graduação Presencial e os Grupos de Trabalho")
